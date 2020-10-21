@@ -1,0 +1,29 @@
+.img_style{
+    object-fit: cover;
+    object-position: center;
+    height: 150px;
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  .card{
+    box-shadow: 5px 5px dimgrey;
+    border-radius: 10px;
+  }
+  .jumbotron {
+    background-color:cornflowerblue;
+    background-size: cover;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    max-height: 200px;
+    margin-bottom: 0;
+  }
+  .display-4{
+    color:aliceblue;
+    text-shadow: 2px 2px #000000;
+  }
+  .lead
+  {
+    color:aliceblue;
+    text-shadow: 2px 2px #000000;
+  }
