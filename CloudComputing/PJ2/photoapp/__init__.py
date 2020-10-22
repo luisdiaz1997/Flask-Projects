@@ -7,7 +7,8 @@ import os
     
 CLOUD_STORAGE_BUCKET = os.environ.get("CLOUD_STORAGE_BUCKET")
 CLOUD_THUMBNAIL_BUCKET = os.environ.get("CLOUD_THUMBNAIL_BUCKET")
-
+CLOUD_STORAGE_BUCKET = "papus" #os.environ.get("CLOUD_STORAGE_BUCKET")
+CLOUD_THUMBNAIL_BUCKET = "thumbnails-papus"
 
 if CLOUD_STORAGE_BUCKET is None:
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "Project-1f0d49812708.json"
