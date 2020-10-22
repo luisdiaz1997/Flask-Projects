@@ -1,8 +1,10 @@
 runtime: python37
+env: flex
 entrypoint: gunicorn -b :$PORT app:app
 
+runtime_config:
+  python_version: 3
+
 env_variables:
-  CLOUD_STORAGE_BUCKET: "papu"
-  CLOUD_THUMBNAIL_BUCKET: "thumbnails-papus"
-  DEVELOPMENT: "true"
-  PORT: 8080
+  CLOUD_STORAGE_BUCKET: papu
+  CLOUD_THUMBNAIL_BUCKET: thumbnails-papus

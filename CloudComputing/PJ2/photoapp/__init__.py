@@ -5,7 +5,6 @@ from google.cloud import storage
 import os
 
 try:
-    development = os.environ["development"]
     CLOUD_STORAGE_BUCKET = os.environ["CLOUD_STORAGE_BUCKET"]
     CLOUD_THUMBNAIL_BUCKET = os.environ["CLOUD_THUMBNAIL_BUCKET"]
 except:
