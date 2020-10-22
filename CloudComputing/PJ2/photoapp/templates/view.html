@@ -1,0 +1,85 @@
+{% extends 'template.html' %}
+
+{% block title %}
+{{name}}
+{% endblock %}
+
+{% block content %}
+{% include 'header.html' %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <img src="https://storage.googleapis.com/{{bucket}}/{{name}}" class="img_style_big" alt="">
+        </div>
+        <div class="col-lg-4">
+            {%if labels%}
+            <h2 class="text-center font-weight-bold">Labels</h2>
+            <ul class="list-group">
+                {%for label in labels%}
+                    <li class="list-group-item"><h4 class="text-center">{{label}}</h4></li>
+                {%endfor%}
+            </ul>
+            {%else%}
+            <h2 class="text-center font-weight-bold">No Labels</h2>
+            {%endif%}
+            <br>
+            
+            <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#edit">
+                Edit
+            </button>
+            <div class="modal fade" id="edit" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editLabel">Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>   
+                        </div>
+                        <div class="modal-body">
+                            <form action="/edit" method="POST" enctype="multipart/form-data">
+                                <label for="myfile">Choose a picture</label>
+                                <input type="file" class="form-control-file" id="myfile" name="myfile">
+                                <br>
+                                <label for="labels">Labels:</label>
+                                <textarea class="form-control" id="labels" name="labels">{{labels|join(', ') }}</textarea>
+                                <br>
+                                <input type="hidden" id="name" name="name" value="{{name}}"/>
+                                <button class="btn btn-primary btn-lg btn-block" type="submit" >Comfirm</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#remove">
+                Delete Picture
+            </button>
+            <div class="modal fade" id="remove" tabindex="-1" aria-labelledby="removeLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="removeLabel">Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        <form action="/delete" method="POST">
+                            Please comfirm you want to delete this picture
+                            <br>
+                            <br>
+                            <input type="hidden" name="file" value="{{name}}"/>
+                            <button class="btn btn-danger btn-lg btn-block" type="submit" >Comfirm Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="/static/css/home.css">
+{% endblock %}
