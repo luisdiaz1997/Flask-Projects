@@ -1,4 +1,5 @@
 runtime: python37
+entrypoint: gunicorn -b :$PORT app:app
 env_variables:
  CLOUD_STORAGE_BUCKET: "papu"
  CLOUD_THUMBNAIL_BUCKET: "thumbnails-papus"
