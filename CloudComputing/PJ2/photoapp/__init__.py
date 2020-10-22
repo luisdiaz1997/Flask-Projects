@@ -9,7 +9,7 @@ try:
     CLOUD_STORAGE_BUCKET = os.environ["CLOUD_STORAGE_BUCKET"]
     CLOUD_THUMBNAIL_BUCKET = os.environ["CLOUD_THUMBNAIL_BUCKET"]
 except:
-    # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "Project-1f0d49812708.json"
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "Project-1f0d49812708.json"
     # os.environ["CLOUD_STORAGE_BUCKET"] = "papus"
     CLOUD_STORAGE_BUCKET = "papus" #os.environ.get("CLOUD_STORAGE_BUCKET")
     CLOUD_THUMBNAIL_BUCKET = "thumbnails-papus"
