@@ -1,0 +1,5 @@
+runtime: python37
+env_variables:
+	CLOUD_STORAGE_BUCKET: "papu"
+  CLOUD_THUMBNAIL_BUCKET: "thumbnails-papus"
+  DEVELOPMENT: "true"
