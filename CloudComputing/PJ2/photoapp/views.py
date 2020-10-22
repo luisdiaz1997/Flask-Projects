@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect
 from photoapp import app, db, storage_client, bucket, bucket_thumbnails, \
-CLOUD_STORAGE_BUCKET, CLOUD_THUMBNAIL_BUCKET, text_api
+CLOUD_STORAGE_BUCKET, CLOUD_THUMBNAIL_BUCKET
 import time
 import re
 
@@ -33,7 +33,7 @@ def create_photo(request, name=False):
             blob.delete()
         
         if blob_thumbnails.exists():
-            
+
             blob_thumbnails.delete()
             
         blob.upload_from_string(photo.read(), content_type=photo.content_type)
