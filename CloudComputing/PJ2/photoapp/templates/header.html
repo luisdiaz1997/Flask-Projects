@@ -25,8 +25,18 @@
                     </div>
                     <div class="modal-body">
                         <form action="/upload_photo" method="POST" enctype="multipart/form-data">
+
+                        <label for="photographer">Photographer:</label>
+                        <input type="text" class="form-control" id="photographer" name="photographer" required>
+                        <br>
+                        <label for="location">Location:</label>
+                        <input type="text" class="form-control" id="location" name="location" required placeholder="ex: Los Angeles">
+                        <br>
+                        <label for="date">Date Taken:</label>
+                        <input type="date" class="form-control" id="date" name="date" required>
+                        <br>
                         <label for="myfile">Choose a Picture</label>
-                        <input type="file" class="form-control-file" id="myfile" name="myfile">
+                        <input type="file" class="form-control-file" id="myfile" name="myfile" required>
                         <br>
                         <br>
                         <button class="btn btn-primary" type="submit">Add</button>

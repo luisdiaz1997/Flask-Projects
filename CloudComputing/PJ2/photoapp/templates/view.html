@@ -13,11 +13,22 @@
             <img src="https://storage.googleapis.com/{{bucket}}/{{name}}" class="img_style_big" alt="">
         </div>
         <div class="col-lg-4">
-            {%if labels%}
-            <h2 class="text-center font-weight-bold">Labels</h2>
-            <ul class="list-group">
-                {%for label in labels%}
-                    <li class="list-group-item"><h4 class="text-center">{{label}}</h4></li>
+            <div class="text-center">
+                <h3><b>Photographer:</b></h3>
+                <h4>{{picture["photographer"]}}</h4>
+                <br>
+                <h3><b>Date Taken:</b></h3>
+                <h4>{{picture["taken"]}}</h4>
+                <br>
+                <h3><b>Location:</b></h3>
+                <h4>{{picture["location"]}}</h4>
+            </div>          
+            {%if picture["labels"]%}
+            <br>
+            <h3 class="text-center font-weight-bold">Labels:</h3>
+            <ul class="list-group text-center">
+                {%for label in picture["labels"]%}
+                    <li class="list-group-item">{{label}}</li>
                 {%endfor%}
             </ul>
             {%else%}
@@ -43,7 +54,7 @@
                                 <input type="file" class="form-control-file" id="myfile" name="myfile">
                                 <br>
                                 <label for="labels">Labels:</label>
-                                <textarea class="form-control" id="labels" name="labels">{{labels|join(', ') }}</textarea>
+                                <textarea class="form-control" id="labels" name="labels">{{picture["labels"]|join(', ') }}</textarea>
                                 <br>
                                 <input type="hidden" id="name" name="name" value="{{name}}"/>
                                 <button class="btn btn-primary btn-lg btn-block" type="submit" >Comfirm</button>

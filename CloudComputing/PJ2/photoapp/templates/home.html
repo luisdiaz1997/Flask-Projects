@@ -10,28 +10,24 @@ Picture Album
 
 
     <div class="container">
-        {% if pictures %}
-          <div class="row row-cols-1 row-cols-md-4">
-            {% for picture in  pictures%}
-              <div class="col mb-3">
-                <div class="card" style="height: 100%;">
-                  <img src="https://storage.googleapis.com/{{thumbnails}}/{{picture['name']}}" class="card-img-top img_style" alt="...">
-                  
-                  <div class="card-body">
-                    <h5 class="card-title">{{picture["name"]}}</h5>
-                    {% if picture["labels"]%}
-                    <p class="card-text">
-                        {%for label in picture["labels"][:5]%}
-                            <li>{{label}}</li>
-                        {%endfor%}
-                    </p>
-                    {%endif%}
-                    <a href="/view/{{picture['name']}}" class="stretched-link"></a>
+        {% if pictures_dict %}
+          {% for category in categories%}
+            <h1>{{category}}</h1>
+            <div class="row row-cols-1 row-cols-md-4">  
+              {% for picture in  pictures_dict[category]%}
+                <div class="col mb-3">
+                  <div class="card" style="height: 100%;">
+                    <img src="{{picture['thumbnail_path']}}" class="card-img-top img_style" alt="...">
+                    
+                    <div class="card-body">
+                      <h5 class="card-title">{{picture["name"]}}</h5>
+                      <a href="/view/{{picture['name']}}" class="stretched-link"></a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            {% endfor %}
-          </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
         {% endif %}
     </div>
 {% endblock %}
