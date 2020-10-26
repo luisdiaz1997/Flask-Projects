@@ -17,6 +17,9 @@
                 <h3><b>Photographer:</b></h3>
                 <h4>{{picture["photographer"]}}</h4>
                 <br>
+                <h3><b>Category:</b></h3>
+                <h4>{{picture["category"]}}</h4>
+                <br>
                 <h3><b>Date Taken:</b></h3>
                 <h4>{{picture["taken"]}}</h4>
                 <br>
@@ -50,6 +53,25 @@
                         </div>
                         <div class="modal-body">
                             <form action="/edit" method="POST" enctype="multipart/form-data">
+                                <label for="photographer2">Photographer:</label>
+                                <input type="text" class="form-control" id="photographer2" name="photographer2" required value="{{picture['photographer']}}">
+                                <br>
+                                <label for="location2">Location:</label>
+                                <input type="text" class="form-control" id="location2" name="location2" required value="{{picture['location']}}">
+                                <br>
+                                <label for="date2">Date Taken:</label>
+                                <input type="date" class="form-control" id="date2" name="date2" required value="{{picture['taken']}}">
+                                <br>
+                                <label for="category">Category</label>
+                                <select id="category" name="category" class="form-control">
+                                    <option value="{{picture['category']}}" selected>--Please choose an option--</option>
+                                    <option value="auto">Automatic</option>
+                                    <option value="animals">Animal</option>
+                                    <option value="flowers">Flower</option>
+                                    <option value="people">People</option>
+                                    <option value="other">Others</option>
+                                </select>
+                                
                                 <label for="myfile">Choose a picture</label>
                                 <input type="file" class="form-control-file" id="myfile" name="myfile">
                                 <br>

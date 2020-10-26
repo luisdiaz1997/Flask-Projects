@@ -52,6 +52,8 @@ def create_photo(request, name=False):
             blob_thumbnails.delete()
             
         blob.upload_from_string(photo.read(), content_type=photo.content_type)
+        return True
+    return False
 
 @app.route("/upload_photo", methods=["GET", "POST"])
 def upload_photo():
@@ -109,20 +111,35 @@ def delete():
 @app.route("/edit", methods=["GET", "POST"])
 def edit():
     if request.method=="POST":
+        
         name=request.form["name"]
-        create_photo(request, name=name)
-        time.sleep(1)
-        labels = request.form["labels"]
-        labels = re.split("\s*,\s*", labels)
+        created = create_photo(request, name=name)
+        document_ref = db.collection(u'pictures').document(name)
+        
+        if not created:
+            labels = request.form["labels"]
+            labels = re.split("\s*,\s*", labels)
+        else:
+            while (True):
+                try:
+                    document = document_ref.get()
+                    labels = document.get(u'labels')
+                    labels_string = ' '.join(labels)
+                    break
+                except:
+                    continue
 
         category = request.form["category"]
         if category == "auto":
             category = words.set_category(' '.join(labels))
 
-        picture_ref = db.collection(u'pictures').document(name)
-        picture_ref.set({
+        
+        document_ref.set({
             u'labels': labels,
-            u'category': category
+            u'category': category,
+            u'photographer': request.form['photographer2'],
+            u'location': request.form['location2'],
+            u'taken': request.form['date2']
         }, merge=True)
 
         return redirect("/view/"+name)
