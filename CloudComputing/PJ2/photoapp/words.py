@@ -36,7 +36,7 @@ def set_category(labels_string):
     print("total_max", total_max)
     print("absolute_score", absolute_score)
     i  = np.argmax(absolute_score)
-    if absolute_score[i] > 0.2:
+    if absolute_score[i] > 0.25:
         print(score_dict[i])
         return score_dict[i]
     else:
