@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     
-    <DataUploader></DataUploader>
+    <b-container>
+      <DataUploader :image="image" @changed-image="updateImage"/>
+    </b-container>
   </div>
 </template>
 
@@ -13,6 +15,21 @@ export default {
   name: 'Home',
   components: {
     DataUploader
+  },
+  methods:
+  {
+    updateImage(newImage){
+      this.image=newImage
+      this.$store.commit('replaceImage', this.image)
+    }
+  },
+  data(){
+    return{
+      image:null
+    }
+  },
+  mounted(){
+    this.image = this.$store.state.image
   }
 }
 </script>
