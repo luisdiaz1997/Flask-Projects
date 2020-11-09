@@ -2,19 +2,23 @@
   <div class="home">
     
     <b-container>
-      <DataUploader :image="image" @changed-image="updateImage"/>
+      <ImageUploader :image="image" @changed-image="updateImage"/>
+      <AudioUploader/>
     </b-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import DataUploader from '@/components/DataUploader.vue'
+import ImageUploader from '@/components/ImageUploader.vue'
+import AudioUploader from '@/components/AudioUploader.vue'
+
 
 export default {
   name: 'Home',
   components: {
-    DataUploader
+    ImageUploader,
+    AudioUploader
   },
   methods:
   {
