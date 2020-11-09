@@ -48,5 +48,16 @@ def process_audio():
         return response
 
 
+@app.route('/analyze_text', methods=["GET", "POST"])
+def process_text():
+    if request.method=="POST":
+        print(request.form)
+    
+        response_body = {
+            "message": "Hola, my nombre es Luis"
+        }
+        response = jsonify(response_body)
+        return response
+
 if __name__=='__main__':
     app.run(port=5000, debug=True)

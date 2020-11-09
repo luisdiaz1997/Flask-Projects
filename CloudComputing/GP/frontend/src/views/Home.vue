@@ -4,6 +4,7 @@
     <b-container>
       <ImageUploader :image="image" @changed-image="updateImage"/>
       <AudioUploader/>
+      <TextUploader/>
     </b-container>
   </div>
 </template>
@@ -12,13 +13,15 @@
 // @ is an alias to /src
 import ImageUploader from '@/components/ImageUploader.vue'
 import AudioUploader from '@/components/AudioUploader.vue'
+import TextUploader from '@/components/TextUploader.vue'
 
 
 export default {
   name: 'Home',
   components: {
     ImageUploader,
-    AudioUploader
+    AudioUploader,
+    TextUploader
   },
   methods:
   {
