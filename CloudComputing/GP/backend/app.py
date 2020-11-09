@@ -4,7 +4,6 @@ from flask_cors import CORS
 app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app)
 
-
 @app.route('/')
 def home():
     return app.send_static_file('index.html') 
@@ -17,6 +16,7 @@ def about():
 @app.route('/analyze_image', methods=["GET", "POST"])
 def process_image():
     if request.method=="POST":
+        print(request.form)
         print(request.files)
         image = request.files["image"]
 
@@ -33,11 +33,14 @@ def process_image():
 @app.route('/analyze_audio', methods=["GET", "POST"])
 def process_audio():
     if request.method=="POST":
+        print(request.form)
         print(request.files)
-        audio = request.files["audio"]
+        audio = request.files["file"]
 
         print(audio.filename)
         print(audio.content_type)
+
+        audio.save("che.webm")
         response_body = {
                 "message": "This a vague description of what is on "+audio.filename
             }

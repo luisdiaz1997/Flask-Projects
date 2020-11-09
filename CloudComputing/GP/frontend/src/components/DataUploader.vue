@@ -33,7 +33,7 @@
             <b-row>
                 <b-col >
                     <h3>Hold to record</h3>
-                    <vue-record-audio @result="onResult" />
+                    <vue-record-audio @result="onResult"/>
                 </b-col>
                 <b-col>
                     <h3>Audio Files</h3>
@@ -77,7 +77,8 @@ export default {
     return{
         localImage: null,
         recordings:[],
-        imgDescription:null
+        imgDescription:null,
+        currStream:null
     }
   },
   methods:
@@ -85,11 +86,13 @@ export default {
         getImPreview()
         {
             return URL.createObjectURL(this.image);
-        },
+        }
+        ,
         onResult (data) {
+            let data_blob  = new Blob([data], { 'type': 'audio/webm' })
             this.recordings.push({
-                src: URL.createObjectURL(data),
-                data: data,
+                src: URL.createObjectURL(data_blob),
+                data: data_blob,
                 description: null
             })
         },
@@ -99,7 +102,7 @@ export default {
         analyzeAudio(index)
         {
             let formData = new FormData();
-            formData.append('audio', this.recordings[index].data);
+            formData.append('file', this.recordings[index].data);
             let config=  { 
                 headers: {
                 'Content-Type': 'multipart/form-data'
