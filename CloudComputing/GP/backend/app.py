@@ -1,7 +1,7 @@
 import base64
 from flask import Flask, send_file, request, jsonify, make_response, send_file
 from flask_cors import CORS
-
+import translation
 from audio import Audio_API
 
 import os
@@ -44,10 +44,9 @@ def process_audio():
 def process_text():
     if request.method=="POST":
         print(request.form)
-        print(request.files)
-
+        translatedText = translation.translate_text("es", request.form['text'])#"to Spanish (es)"
         response_body = {
-                "message": "Hola mi nombre es Luis"
+                "message": translatedText
             }
         response = jsonify(response_body)
         return response
