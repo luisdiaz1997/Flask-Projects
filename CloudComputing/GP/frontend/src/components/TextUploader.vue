@@ -22,7 +22,9 @@
                 <br>
                 <br>
                 <b-button v-if="text" variant="primary" @click="translateText">Translate</b-button>
-
+                <br>
+                <br>
+                <b-button v-if="text" variant="primary" @click="get_audio"> Play audio</b-button>
 
             </b-col>
             <b-col cols="5">
@@ -70,6 +72,21 @@ export default {
             axios.post('http://127.0.0.1:5000/analyze_text', formData, config).then((response)=>{
                 this.translation = response.data["message"]
                 })
+        }
+            ,
+        get_audio()
+        {
+        let formData = new FormData();
+        formData.append('text',  this.text);
+        let config=  { 
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+        }
+        axios.post('http://127.0.0.1:5000/text_to_audio', formData, config).then((response)=>{
+            console.log(response)
+            
+            })
         }
     }
     

@@ -3,7 +3,7 @@ from flask import Flask, send_file, request, jsonify, make_response, send_file
 from flask_cors import CORS
 import translation
 from audio import Audio_API
-
+import texttospeech
 import os
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -55,11 +55,12 @@ def process_text():
 def text_to_audio():
     if request.method=="POST":
         #If request doesnt have id, then add it to db
-        # If it does, send text to api     
+        # If it does, send text to api  
+        message = texttospeech.run(request.form['text'])  
         response_body = {
-                "message": "Hola mi nombre es Luis"
+                "message": message
             }
-        file_path = os.path.join(dir_path, 'test.mp3')
+        file_path = os.path.join(dir_path, 'output.mp3')
         return send_file(file_path)
 
 @app.route('/get_quotes', methods=["GET", "POST"]) #Bhavani
