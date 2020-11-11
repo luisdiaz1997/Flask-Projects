@@ -36,8 +36,6 @@
 
 
 <script>
-import axios from "axios";
-
 export default {
   name: 'ImageUploader',
   props: {
@@ -64,7 +62,7 @@ export default {
                 'Content-Type': 'multipart/form-data'
                 }
             }
-            axios.post('http://127.0.0.1:5000/analyze_image', formData, config).then((response)=>{
+            this.$api.post('/analyze_image', formData, config).then((response)=>{
                 this.imgDescription = response.data["message"]
 
                 })

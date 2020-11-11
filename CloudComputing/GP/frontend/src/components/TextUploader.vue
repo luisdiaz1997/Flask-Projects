@@ -46,7 +46,6 @@
     </div>
 </template>
 <script>
-import axios from "axios";
 export default {
     name: "TextUploader",
     props:{
@@ -82,7 +81,7 @@ export default {
                 'Content-Type': 'multipart/form-data'
                 }
             }
-            axios.post('http://127.0.0.1:5000/analyze_text', formData, config).then((response)=>{
+            this.$api.post('/analyze_text', formData, config).then((response)=>{
                 this.translation = response.data["message"]
                 })
         }
@@ -96,7 +95,7 @@ export default {
             'Content-Type': 'multipart/form-data'
             }
         }
-        axios.post('http://127.0.0.1:5000/text_to_audio', formData, config).then((response)=>{
+        this.$api.post('/text_to_audio', formData, config).then((response)=>{
             console.log(response)
             
             })

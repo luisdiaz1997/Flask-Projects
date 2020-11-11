@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import axios from "axios";
+
 export default {
     name:'AudioUploader',
     data(){
@@ -63,7 +63,7 @@ export default {
                 'Content-Type': 'multipart/form-data'
                 }
             }
-            axios.post('http://127.0.0.1:5000/analyze_audio', formData, config).then((response)=>{
+            this.$api.post('/analyze_audio', formData, config).then((response)=>{
                 this.recordings[index].description = response.data["message"]
 
                 })

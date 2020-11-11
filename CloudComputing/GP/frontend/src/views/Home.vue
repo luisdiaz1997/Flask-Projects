@@ -6,7 +6,6 @@
     </div>
 </template>
 <script>
-import axios from 'axios'
 import Quotes from '@/components/Quotes.vue'
 export default {
     name: "Home",
@@ -18,7 +17,7 @@ export default {
         }
     },
     mounted(){
-        axios.get('http://127.0.0.1:5000/get_quotes').then((response)=>{
+        this.$api.get('/get_quotes').then((response)=>{
             this.quotes= response.data
             this.quotesLoading=false
         })
