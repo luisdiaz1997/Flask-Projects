@@ -1,43 +1,33 @@
 <template>
-  <div class="home">
-    
-    <b-container>
-      <ImageUploader :image="image" @changed-image="updateImage"/>
-      <AudioUploader/>
-      <TextUploader/>
-    </b-container>
-
-  </div>
+    <div id="home">
+        <b-container>
+            <Quotes :loading="quotesLoading" :quotes="quotes"/>
+        </b-container>
+    </div>
 </template>
-
 <script>
-// @ is an alias to /src
-import ImageUploader from '@/components/ImageUploader.vue'
-import AudioUploader from '@/components/AudioUploader.vue'
-import TextUploader from '@/components/TextUploader.vue'
-
-
+import axios from 'axios'
+import Quotes from '@/components/Quotes.vue'
 export default {
-  name: 'Home',
-  components: {
-    ImageUploader,
-    AudioUploader,
-    TextUploader
-  },
-  methods:
-  {
-    updateImage(newImage){
-      this.image=newImage
-      this.$store.commit('replaceImage', this.image)
+    name: "Home",
+    components: {Quotes},
+    data(){
+        return{
+            quotesLoading:true,
+            quotes: null
+        }
+    },
+    mounted(){
+        axios.get('http://127.0.0.1:5000/get_quotes').then((response)=>{
+            this.quotes= response.data
+            this.quotesLoading=false
+        })
     }
-  },
-  data(){
-    return{
-      image:null
-    }
-  },
-  mounted(){
-    this.image = this.$store.state.image
-  }
+
+    
 }
 </script>
+
+<style scoped>
+
+</style>

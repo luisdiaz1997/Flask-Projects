@@ -9,7 +9,15 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+    
   },
+  {
+    path: '/upload',
+    name: 'Upload',
+    component: ()=>import('../views/Upload.vue')
+    
+  },
+  
   {
     path: '/about',
     name: 'About',
