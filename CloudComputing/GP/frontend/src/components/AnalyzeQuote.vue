@@ -8,12 +8,17 @@
                         <p>{{quote.text}}</p>
                     </div>
                 </div>
-                <div class="right">
-                    <b-button variant="primary" @click="get_audio(quote.text, 1)"> Play audio</b-button>
+                <span>
+                <div class="flex-container">
+                    <div style="flex-grow: 11">
+                        <audio v-if="audio1" :src="audio1" controls></audio>
+                    </div>
+                    <div style="flex-grow: 1">
+                        <b-button variant="primary" size="sm" @click="get_audio(quote.text, 1)"> Play</b-button>
+                    </div>
                 </div>
-                <div v-if="audio1">
-                    <audio :src="audio1" controls></audio>
-                </div>
+
+                </span>
             </b-col>
             <b-col cols="2">
                 <b-form-select
@@ -23,7 +28,7 @@
                 ></b-form-select>
                 <br>
                 <br>
-                <b-button v-if="text || quote" variant="primary" @click="translateText">Translate</b-button>
+                <b-button v-if="quote" variant="primary" @click="translateText">Translate</b-button>
                 
 
             </b-col>
@@ -36,11 +41,13 @@
                         <p>{{translation}}</p>
                     </div>
                 </div>
-                <div class="right">
-                    <b-button v-if="translation" variant="primary" @click="get_audio(translation, 2)"> Play audio</b-button>
-                </div>
-                <div v-if="audio2">
-                    <audio :src="audio2" controls></audio>
+                <div class="flex-container" v-if="translation">
+                    <div style="flex-grow: 11">
+                        <audio v-if="audio2" :src="audio2" controls></audio>
+                    </div>
+                    <div style="flex-grow: 1">
+                        <b-button variant="primary" size="sm" @click="get_audio(quote.text, 2)"> Play</b-button>
+                    </div>
                 </div>
             </b-col>
         </b-row>
@@ -139,12 +146,13 @@ export default {
         align-items:center;
         justify-content:center;
 }
-.right{
-    display: flex;
-    margin-top: 10px;
-    justify-content: flex-end;
-    align-items: center;
-    
+.flex-container {
+  display: flex;
+  align-items: stretch;
+  justify-content:center;
+  align-items:center;
+  margin-top: 20px;
 }
+
 
 </style>
