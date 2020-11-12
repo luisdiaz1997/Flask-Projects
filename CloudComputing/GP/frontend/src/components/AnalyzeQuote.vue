@@ -1,25 +1,18 @@
 <template>
     <div id="analyze-quote">
 
-        <div v-if="!quote">
-            <h2>Analyze Text</h2>
-            <br>
-        </div>
         <b-row>
             <b-col cols="5">
-                <div v-if="quote" class="quote">
+                <div class="quote">
                     <div class="quote_text">
                         <p>{{quote.text}}</p>
                     </div>
                 </div>
-                <div v-else>
-                    <b-form-textarea
-                    id="textarea"
-                    v-model="text"
-                    placeholder="Enter something..."
-                    rows="5"
-                    max-rows="10"
-                    ></b-form-textarea>
+                <div class="right">
+                    <b-button variant="primary" @click="get_audio(quote.text, 1)"> Play audio</b-button>
+                </div>
+                <div v-if="audio1">
+                    <audio :src="audio1" controls></audio>
                 </div>
             </b-col>
             <b-col cols="2">
@@ -31,16 +24,24 @@
                 <br>
                 <br>
                 <b-button v-if="text || quote" variant="primary" @click="translateText">Translate</b-button>
-                <br>
-                <br>
-                <b-button v-if="text || quote" variant="primary" @click="get_audio"> Play audio</b-button>
+                
 
             </b-col>
             <b-col cols="5">
                  <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
                     <p>Please select language</p>
                 </b-alert> 
-                <p v-if="translation">{{translation}}</p>   
+                <div class="quote" v-if="translation">
+                    <div class="quote_text" >
+                        <p>{{translation}}</p>
+                    </div>
+                </div>
+                <div class="right">
+                    <b-button v-if="translation" variant="primary" @click="get_audio(translation, 2)"> Play audio</b-button>
+                </div>
+                <div v-if="audio2">
+                    <audio :src="audio2" controls></audio>
+                </div>
             </b-col>
         </b-row>
     </div>
@@ -58,7 +59,9 @@ export default {
             language:null,
             text:null,
             showDismissibleAlert: false,
-            translation:null
+            translation:null,
+            audio1:null,
+            audio2:null
 
         }
     },
@@ -86,34 +89,46 @@ export default {
                 })
         }
             ,
-        get_audio()
+        get_audio(data, index)
         {
         let formData = new FormData();
-        formData.append('text',  this.text);
+        formData.append('text',  data);
         let config=  { 
             headers: {
             'Content-Type': 'multipart/form-data'
-            }
+            },
+            responseType: 'blob'
         }
         this.$api.post('/text_to_audio', formData, config).then((response)=>{
             console.log(response)
+            // let audio = new Blob([response.data])
+            // console.log(audio)
+            if (index === 1)
+            {   
+                this.audio1 = URL.createObjectURL(response.data)
+            }
+            else{
+                this.audio2 = URL.createObjectURL(response.data)
+            }
             
             })
+            
         }
-    }
+    },
+
     
 }
 </script>
 
 <style scoped>
 
-#text-uploader{
+#analyze-quote{
     margin-bottom: 50px;
     margin-top: 50px;
 }
 .quote{
     background-color: khaki;
-    height: 75%;
+    height: 120px;
     border-radius: 10px;
     box-shadow: 10px 5px 5px slategrey;
 }
@@ -123,7 +138,13 @@ export default {
         margin: auto;
         align-items:center;
         justify-content:center;
-
+}
+.right{
+    display: flex;
+    margin-top: 10px;
+    justify-content: flex-end;
+    align-items: center;
+    
 }
 
 </style>

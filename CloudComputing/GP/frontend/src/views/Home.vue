@@ -1,5 +1,6 @@
 <template>
     <div id="home">
+        <h2>Quotes</h2>
         <b-container>
             <Quotes :loading="quotesLoading" :quotes="quotes"/>
         </b-container>
