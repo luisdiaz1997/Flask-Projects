@@ -41,14 +41,6 @@
                         <p>{{translation}}</p>
                     </div>
                 </div>
-                <div class="flex-container" v-if="translation">
-                    <div style="flex-grow: 11">
-                        <audio v-if="audio2" :src="audio2" controls></audio>
-                    </div>
-                    <div style="flex-grow: 1">
-                        <b-button variant="primary" size="sm" @click="get_audio(quote.text, 2)"> Play</b-button>
-                    </div>
-                </div>
             </b-col>
         </b-row>
     </div>
