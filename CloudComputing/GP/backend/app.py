@@ -22,6 +22,11 @@ def home():
 def about():
     return app.send_static_file('index.html')
 
+
+@app.route('/upload')
+def upload():
+    return app.send_static_file('index.html')
+
 @app.route('/analyze_image', methods=["GET", "POST"])
 def process_image():
     if request.method=="POST":
