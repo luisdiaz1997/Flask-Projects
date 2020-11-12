@@ -2,14 +2,17 @@ import base64
 from flask import Flask, send_file, request, jsonify, make_response, send_file
 from flask_cors import CORS
 import translation
-from audio import Audio_API
+from audio import analyze_audio
 import texttospeech
 import os
+from google.cloud import datastore
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 CORS(app)
+
+datastore_client = datastore.Client()
 
 @app.route('/')
 def home():
@@ -41,11 +44,10 @@ def process_image():
 
 @app.route('/analyze_audio', methods=["GET", "POST"])
 def process_audio():
-    audio_obj= Audio_API()
-    response = audio_obj.analyze_audio(request)
-    return response  
+    response = analyze_audio(request)
+    return response
 
-@app.route('/analyze_text', methods=["GET", "POST"])#translate Sally
+@app.route('/analyze_text', methods=["GET", "POST"])
 def process_text():
     if request.method=="POST":
         print(request.form)
@@ -56,7 +58,7 @@ def process_text():
         response = jsonify(response_body)
         return response
 
-@app.route('/text_to_audio',  methods=["GET", "POST"]) #Sally
+@app.route('/text_to_audio',  methods=["GET", "POST"])
 def text_to_audio():
     if request.method=="POST":
         #If request doesnt have id, then add it to db
@@ -68,18 +70,18 @@ def text_to_audio():
         file_path = os.path.join(dir_path, 'output.mp3')
         return send_file(file_path)
 
-@app.route('/get_quotes', methods=["GET", "POST"]) #Bhavani
+@app.route('/get_quotes', methods=["GET", "POST"])
 def get_quotes():
     if request.method=="GET":
-
-        response_body = [{
-            "id": "2",
-            "text": "This world is beautiful",
-        },{
-            "id": "3",
-            "text": "This world is ugly",
-        }]
-
+        query = datastore_client.query(kind="proj3_files")
+        quotes_list = query.fetch()
+        response_body = []
+        for quote in quotes_list:
+            print('Quote Id : ' + str(quote.key.id) + '   Transcribed Text: ' + quote['Transcribed Text'])        
+            response_body.append({
+            "id": quote.key.id,
+            "text": quote['Transcribed Text'],
+            })
         response = jsonify(response_body)
         return response
 

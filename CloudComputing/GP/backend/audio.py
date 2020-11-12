@@ -18,50 +18,48 @@ datastore_client = datastore.Client()
 
 bucket = storage_client.bucket(CLOUD_STORAGE_BUCKET)
 
-class Audio_API(object):
-    def analyze_audio(self, request):
-        if request.method=="POST":
-            print(request.files)
-            audio_file = request.files["file"]
-            print(audio_file.filename)
-            print(audio_file.content_type)
+def analyze_audio(request):
+    if request.method=="POST":
+        print(request.files)
+        audio_file = request.files["file"]
+        print(audio_file.filename)
+        print(audio_file.content_type)
 
-            webm_audio = AudioSegment.from_file(audio_file, "webm")
+        webm_audio = AudioSegment.from_file(audio_file, "webm")
             
-            dt = datetime.datetime.now().strftime("%f")
-            blob_name=audio_file.filename + dt + ".flac"
-            print(blob_name)
+        dt = datetime.datetime.now().strftime("%f")
+        blob_name=audio_file.filename + dt + ".flac"
+        print(blob_name)
             
-            webm_audio.export(blob_name, format="flac")
+        webm_audio.export(blob_name, format="flac")
             
-            blob = bucket.blob(blob_name)
-            blob.upload_from_filename(blob_name)
-            blob.make_public()            
-            # gcs_uri = "gs://cloud-samples-tests/speech/brooklyn.flac"
-            gcs_uri = "gs://proj3_audio_bucket/"+blob_name
-            print(gcs_uri)
-            audio = speech.RecognitionAudio(uri=gcs_uri)
-            config = speech.RecognitionConfig(
-                encoding=speech.RecognitionConfig.AudioEncoding.FLAC,
-                sample_rate_hertz=48000,
-                language_code="en-US",
-            )
-            response = speech_client.recognize(config=config, audio=audio)
-            transcript=""
-            print(response)
-            for result in response.results:
-                print(u"Transcript : {}".format(result.alternatives[0].transcript))
-                transcript=format(result.alternatives[0].transcript)
+        blob = bucket.blob(blob_name)
+        blob.upload_from_filename(blob_name)
+        blob.make_public()            
+        # gcs_uri = "gs://cloud-samples-tests/speech/brooklyn.flac"
+        gcs_uri = "gs://proj3_audio_bucket/"+blob_name
+        print(gcs_uri)
+        audio = speech.RecognitionAudio(uri=gcs_uri)
+        config = speech.RecognitionConfig(
+            encoding=speech.RecognitionConfig.AudioEncoding.FLAC,
+            sample_rate_hertz=48000,
+            language_code="en-US",
+        )
+        response = speech_client.recognize(config=config, audio=audio)
+        transcript=""
+        print(response)
+        for result in response.results:
+            print(u"Transcript : {}".format(result.alternatives[0].transcript))
+            transcript=format(result.alternatives[0].transcript)
+        entity = datastore.Entity(key=datastore_client.key("proj3_files"))
+        entity.update({
+            'CloudStorage_url' : blob.public_url,
+            'Transcribed Text' : transcript
+        })
+        datastore_client.put(entity)
         
-            entity = datastore.Entity(key=datastore_client.key("proj3_files"))
-            entity.update({
-                'Audio_url' : blob.public_url,
-                'Transcribed Text' : transcript
-            })
-            datastore_client.put(entity)
-        
-            response_body = {
-                "message": "Transcript: " + transcript
-            }
-            response = jsonify(response_body)
-            return response
+        response_body = {
+            "message": "Transcript: " + transcript
+        }
+        response = jsonify(response_body)
+        return response
