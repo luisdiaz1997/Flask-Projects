@@ -4,7 +4,6 @@ Note: ssml must be well-formed according to:
     https://www.w3.org/TR/speech-synthesis/
 """
 from google.cloud import texttospeech
-from playsound import playsound
 
 def run(text):
     # Instantiates a client
@@ -35,6 +34,5 @@ def run(text):
         # Write the response to the output file.
         out.write(response.audio_content)
         print('Audio content written to file "output.mp3"')
-        playsound('output.mp3')
         
     return 'Audio content written to file "output.mp3"'

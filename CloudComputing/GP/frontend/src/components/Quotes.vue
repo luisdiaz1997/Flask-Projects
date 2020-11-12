@@ -6,7 +6,7 @@
         </div>
         <div v-else>
             <div v-for="quote in quotes" :key="quote.id">
-                <TextUploader :quote="quote"/>
+                <AnalyzeQuote :quote="quote"/>
             </div>
         </div>
         
@@ -14,11 +14,11 @@
     
 </template>
 <script>
-import TextUploader from './TextUploader.vue'
+import AnalyzeQuote from './AnalyzeQuote.vue'
 
 export default {
     name: "Quotes",
-    components:{TextUploader},
+    components:{AnalyzeQuote},
     props: {
         quotes: Array,
         loading: Boolean
