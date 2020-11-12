@@ -1,5 +1,5 @@
 import base64
-from flask import Flask, send_file, request, jsonify, make_response, send_file
+from flask import Flask, send_file, request, jsonify, make_response, send_file, Blueprint
 from flask_cors import CORS
 import translation
 from audio import analyze_audio
@@ -10,25 +10,27 @@ from google.cloud import datastore
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
+# app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
+app = Flask(__name__)
+bp = Blueprint('simple_app', __name__)
 CORS(app)
 
 datastore_client = datastore.Client()
 
-@app.route('/')
-def home():
-    return app.send_static_file('index.html')
+# @app.route('/')
+# def home():
+#     return app.send_static_file('index.html')
 
-@app.route('/about')
-def about():
-    return app.send_static_file('index.html')
+# @app.route('/about')
+# def about():
+#     return app.send_static_file('index.html')
 
 
-@app.route('/upload')
-def upload():
-    return app.send_static_file('index.html')
+# @app.route('/upload')
+# def upload():
+#     return app.send_static_file('index.html')
 
-@app.route('/analyze_image', methods=["GET", "POST"])
+@bp.route('/analyze_image', methods=["GET", "POST"])
 def process_image():
     if request.method=="POST":
         print(request.form)
@@ -45,12 +47,12 @@ def process_image():
         response = jsonify(response_body)
         return response
 
-@app.route('/analyze_audio', methods=["GET", "POST"])
+@bp.route('/analyze_audio', methods=["GET", "POST"])
 def process_audio():
     response = analyze_audio(request)
     return response
 
-@app.route('/analyze_text', methods=["GET", "POST"])
+@bp.route('/analyze_text', methods=["GET", "POST"])
 def process_text():
     if request.method=="POST":
         print(request.form)
@@ -61,7 +63,7 @@ def process_text():
         response = jsonify(response_body)
         return response
 
-@app.route('/save_text', methods=["GET", "POST"])
+@bp.route('/save_text', methods=["GET", "POST"])
 def save_text():
     if request.method=="POST":
         quote = request.files["text"]
@@ -77,7 +79,7 @@ def save_text():
         response = jsonify(response_body)
         return response
 
-@app.route('/text_to_audio',  methods=["GET", "POST"])
+@bp.route('/text_to_audio',  methods=["GET", "POST"])
 def text_to_audio():
     if request.method=="POST":
         #If request doesnt have id, then add it to db
@@ -89,7 +91,7 @@ def text_to_audio():
         file_path = os.path.join(dir_path, 'output.mp3')
         return send_file(file_path)
 
-@app.route('/get_quotes', methods=["GET", "POST"])
+@bp.route('/get_quotes', methods=["GET", "POST"])
 def get_quotes():
     if request.method=="GET":
         query = datastore_client.query(kind="proj3_files")
@@ -104,6 +106,7 @@ def get_quotes():
         response = jsonify(response_body)
         return response
 
+app.register_blueprint(bp, url_prefix='/api')
 
 if __name__=='__main__':
     app.run(port=5000, debug=True)
