@@ -25,7 +25,7 @@ Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(Vuex)
 console.log(process.env.ENTRYPOINT)
-let baseURL = 'http://localhost:5000' //  'http://localhost:5000'  http://34.69.196.81/api  //Change depending on what you use
+let baseURL = 'http://localhost:5000/api' //  'http://localhost:5000'  http://34.69.196.81/api  //Change depending on what you use
 console.log(baseURL)
 
 Vue.use({

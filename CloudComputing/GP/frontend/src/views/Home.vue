@@ -18,6 +18,7 @@ export default {
     },
     mounted(){
         this.$api.get('/get_quotes').then((response)=>{
+            console.log(response.data)
             this.quotes= response.data
             this.quotesLoading=false
         })
