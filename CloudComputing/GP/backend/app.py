@@ -42,7 +42,12 @@ def process_audio():
 def process_text():
     if request.method=="POST":
         print(request.form)
-        translatedText = translation.translate_text("es", request.form['text'])#"to Spanish (es)"
+        if request.form["language"] == "Spanish":
+            target = "es"
+        else:
+            target = "en"
+
+        translatedText = translation.translate_text(target, request.form['text'])#"to Spanish (es)"
         response_body = {
                 "message": translatedText
             }

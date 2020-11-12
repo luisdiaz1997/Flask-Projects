@@ -55,7 +55,7 @@ export default {
     data()
     {
         return{
-            languages:['Spanish', 'Italian', 'Portuguese', 'Italian'],
+            languages:['Spanish', 'English'],
             language:null,
             text:null,
             showDismissibleAlert: false,
