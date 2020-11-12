@@ -5,6 +5,7 @@
       <ImageUploader :image="image" @changed-image="updateImage"/>
       <AudioUploader/>
       <TextUploader/>
+      
     </b-container>
 
   </div>

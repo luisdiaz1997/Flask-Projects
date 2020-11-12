@@ -10,25 +10,11 @@ from google.cloud import datastore
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
-# app = Flask(__name__, static_folder='../frontend/dist', static_url_path='/')
 app = Flask(__name__)
 bp = Blueprint('simple_app', __name__)
 CORS(app)
 
 datastore_client = datastore.Client()
-
-# @app.route('/')
-# def home():
-#     return app.send_static_file('index.html')
-
-# @app.route('/about')
-# def about():
-#     return app.send_static_file('index.html')
-
-
-# @app.route('/upload')
-# def upload():
-#     return app.send_static_file('index.html')
 
 @bp.route('/analyze_image', methods=["GET", "POST"])
 def process_image():
@@ -66,7 +52,7 @@ def process_text():
 @bp.route('/save_text', methods=["GET", "POST"])
 def save_text():
     if request.method=="POST":
-        quote = request.files["text"]
+        quote = request.form["text"]
         entity = datastore.Entity(key=datastore_client.key("proj3_files"))
         entity.update({
             'CloudStorage_url' : 'No URL',
