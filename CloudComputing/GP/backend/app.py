@@ -3,6 +3,7 @@ from flask import Flask, send_file, request, jsonify, make_response, send_file
 from flask_cors import CORS
 import translation
 from audio import analyze_audio
+from image import get_text_from_image
 import texttospeech
 import os
 from google.cloud import datastore
@@ -33,11 +34,13 @@ def process_image():
         print(request.form)
         print(request.files)
         image = request.files["image"]
-
         print(image.filename)
         print(image.content_type)
+
+        image_text = get_text_from_image(image)
+
         response_body = {
-                "message": "This a vague description of what is on "+image.filename
+                "message": "Image Transcript : "+ image_text
             }
         response = jsonify(response_body)
         return response
@@ -54,6 +57,22 @@ def process_text():
         translatedText = translation.translate_text("es", request.form['text'])#"to Spanish (es)"
         response_body = {
                 "message": translatedText
+            }
+        response = jsonify(response_body)
+        return response
+
+@app.route('/save_text', methods=["GET", "POST"])
+def save_text():
+    if request.method=="POST":
+        quote = request.files["text"]
+        entity = datastore.Entity(key=datastore_client.key("proj3_files"))
+        entity.update({
+            'CloudStorage_url' : 'No URL',
+            'Transcribed Text' : quote
+        })
+        datastore_client.put(entity)
+        response_body = {
+                "message": "Successfully added the quote..!!"
             }
         response = jsonify(response_body)
         return response
