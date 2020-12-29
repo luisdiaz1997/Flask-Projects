@@ -3,6 +3,7 @@ import numpy as np
 
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(device)
 
 class Net(torch.nn.Module):
     def __init__(self):
@@ -50,10 +51,10 @@ class Net(torch.nn.Module):
         
 
 model = Net()
-model.load_state_dict(torch.load("mymodel"))
+model.load_state_dict(torch.load("mymodel", map_location=device))
 model.to(device)
 
 def predict(image):
-    imTensor = torch.tensor(np.array(image.resize(size=(28, 28)))[ None,None, :,:, 3], dtype=torch.float).to(device)
+    imTensor = torch.tensor((1/255)*np.array(image.resize(size=(28, 28)))[ None,None, :,:, 3], dtype=torch.float).to(device)
     x= torch.nn.Softmax(dim= 1)(model(imTensor))
     return x.detach().cpu().numpy()[0].tolist()
