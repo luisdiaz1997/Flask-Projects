@@ -5,6 +5,8 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios'
+import { VueHammer } from 'vue2-hammer'
+
 
 let baseURL = process.env.VUE_APP_BASEURL
 
@@ -17,6 +19,7 @@ Vue.use({
 })
 
 Vue.config.productionTip = false;
+Vue.use(VueHammer)
 
 
 Vue.use(BootstrapVue)

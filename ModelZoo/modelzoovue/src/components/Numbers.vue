@@ -4,7 +4,8 @@
         <b-col sm="12" lg="6" md="6">
             <div id="drawNumber">
                 <canvas id="mnist" ref="mnist" @mousedown="startPainting" @mousemove="sketch" 
-                @mouseup="stopPainting" @mouseleave="stopPainting"/>
+                @mouseup="stopPainting" @mouseleave="stopPainting"
+                v-hammer:panstart="startPainting"  v-hammer:panmove="sketch" v-hammer:panend="stopPainting"/>
             </div>
              <b-button variant="info" @click="clearPainting">Clear</b-button>
         </b-col>
@@ -115,6 +116,7 @@ export default {
 #drawNumber{
     height: 25vw;
     width: auto;
+    min-height: 300px;
     background: black;
     padding: 5%
 }
